@@ -21,7 +21,6 @@ export class ItemComponent implements OnInit {
     this.route.params.subscribe( parameters  => {
       this.productsService.getProduct(parameters['id']).
       subscribe( (product : ProductDescription) => {
-          console.log(product);
           this.id = parameters['id'];
           this.product = product;
       })

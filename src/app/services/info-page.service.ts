@@ -22,7 +22,6 @@ export class InfoPageService {
     subscribe( (resp : InfoPageInterface) => {
           this.load = true;
           this.info = resp;
-          console.log(resp);
     });
   }
 
@@ -31,7 +30,6 @@ export class InfoPageService {
     this.http.get('https://angular-html-c75a5.firebaseio.com/equipo.json').
     subscribe(( resp : any[] ) => {
         this.team = resp;
-         console.log(resp);
     })
   }
 }

@@ -43,14 +43,11 @@ export class ProductsService {
   }
 
   private filterProduct( product : string){
-    console.log(this.products);
-    console.log(this.filteredProduct);
     this.filteredProduct = [];
     this.products.forEach( prod => {
       if(prod.categoria.indexOf( product ) >= 0 
     || prod.titulo.toLowerCase().indexOf( product ) >= 0){
         this.filteredProduct.push(prod);
-        console.log(this.filteredProduct);
       }
     });
   }
