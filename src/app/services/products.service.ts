@@ -9,6 +9,7 @@ export class ProductsService {
 
   load = true;
   products : ProductInterface[] = [];
+  filteredProduct: ProductInterface[] = [];
 
   constructor( private http: HttpClient) { 
 
@@ -16,14 +17,41 @@ export class ProductsService {
   }
 
   private loadProduct(){
-     this.http.get('https://angular-html-c75a5.firebaseio.com/productos_idx.json').
-     subscribe( (resp : ProductInterface[]) => {
-          this.products = resp;
-          this.load = false;
-     });
+    return new Promise(( resolve, reject ) => {
+      this.http.get('https://angular-html-c75a5.firebaseio.com/productos_idx.json').
+      subscribe( (resp : ProductInterface[]) => {
+           this.products = resp;
+           this.load = false;
+           resolve();
+      });
+    });
+    
   }
 
   getProduct( id : String){
      return this.http.get(`https://angular-html-c75a5.firebaseio.com/productos/${ id }.json`);
+  }
+
+  searchProduct ( product: string ){
+    if(this.products.length === 0){
+      this.loadProduct().then(()=>{
+        this.filterProduct( product );
+      });
+    }else{
+      this.filterProduct( product );
+    }
+  }
+
+  private filterProduct( product : string){
+    console.log(this.products);
+    console.log(this.filteredProduct);
+    this.filteredProduct = [];
+    this.products.forEach( prod => {
+      if(prod.categoria.indexOf( product ) >= 0 
+    || prod.titulo.toLowerCase().indexOf( product ) >= 0){
+        this.filteredProduct.push(prod);
+        console.log(this.filteredProduct);
+      }
+    });
   }
 }
